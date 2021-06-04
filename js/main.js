@@ -2,25 +2,25 @@
 
 function generateInteger(min, max) {
   if (max <= min) {
-    return ('Второе число должно быть больше первого')
+    return ('Второе число должно быть больше первого');
   }
 
-  else (min > 0); {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (min - max + 1)) + max;
+  else {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (min - max + 1)) + max;
   }
 }
 
-generateInteger(1, 10)
+generateInteger(1, 10);
 
-function generateRandomFloat(min, max, n) {
+function generateRandomFloat(min, max, numberPoints) {
   if (max <= min) {
-    return ('Второе число должно быть больше первого')
+    return ('Второе число должно быть больше первого');
   }
 
-  else (min >= 0); {
-  return (Math.random() * (max - min) + min).toFixed(n);
+  else {
+    return (Math.random() * (max - min) + min).toFixed(numberPoints);
   }
 }
-generateRandomFloat(1.2, 1.9, 2)
+generateRandomFloat(1.2, 1.9, 2);
