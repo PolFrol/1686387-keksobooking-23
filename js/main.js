@@ -73,6 +73,16 @@ const PHOTOS = [
 
 const getRandomArrayElement = (elements) => elements[generateInteger(0, elements.length - 1)];
 
+const getRandomArray = (array) => {
+  const randomArray = [];
+  for (let counter = 0; counter < array.length; counter++) {
+    if (Math.random() > 0.5) {
+      randomArray.push(array[counter]);
+    }
+  }
+  return randomArray;
+};
+
 const SIMILAR_AD_COUNT = 10;
 
 function createAd () {
@@ -95,9 +105,9 @@ function createAd () {
       guests: generateInteger(0, 100),
       checkin: getRandomArrayElement(CHECKIN),
       checkout: getRandomArrayElement(CHECHOUT),
-      features: getRandomArrayElement(FEATURES),
+      features: getRandomArray(FEATURES),
       description: getRandomArrayElement(DESCRIPTION),
-      photos: getRandomArrayElement(PHOTOS),
+      photos: getRandomArray(PHOTOS),
     },
     location: {
       randomLat,
@@ -107,3 +117,4 @@ function createAd () {
 }
 
 const simalarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
+simalarAds ();
