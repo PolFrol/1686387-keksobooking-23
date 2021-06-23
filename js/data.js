@@ -4,8 +4,8 @@ const MIN_LAT = 35.65;
 const MAX_LAT = 35.7;
 const MIN_LNG = 139.7;
 const MAX_LNG = 139.8;
-const firstNumber = 1;
-const secondNumber = 9;
+const MIN_AVATAR_INDEX = 1;
+const MAX_AVATAR_INDEX = 9;
 
 const TITLE = [
   'Милая, уютная квартирка в центре Токио',
@@ -44,7 +44,7 @@ const FEATURES = [
   'conditioner',
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Просторные комнаты с новым ремонтом и мебелью, можно жить с животными',
   'Развита инфрастуктура, рядом много кафе и магазинов',
 ];
@@ -60,12 +60,12 @@ const SIMILAR_AD_COUNT = 10;
 function createAd () {
   const randomLat = generateRandomFloat(MIN_LAT, MAX_LAT, 5);
   const randomLng = generateRandomFloat(MIN_LNG, MAX_LNG, 5);
-  const getFirstNumber = generateInteger(firstNumber, secondNumber);
-  const getSecondNumber = `0${getFirstNumber}`;
+  const avatarIndex = generateInteger(MIN_AVATAR_INDEX, MAX_AVATAR_INDEX);
+  const avatar = `img/avatars/user0${avatarIndex}.png`;
 
   return {
     author: {
-      avatar: getSecondNumber,
+      avatar: avatar,
     },
     offer: {
       title: getRandomArrayElement(TITLE),
@@ -80,7 +80,7 @@ function createAd () {
       checkin: getRandomArrayElement(CHECKIN),
       checkout: getRandomArrayElement(CHECHOUT),
       features: getRandomArray(FEATURES),
-      description: getRandomArrayElement(DESCRIPTION),
+      description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArray(PHOTOS),
     },
     location: {
@@ -90,7 +90,5 @@ function createAd () {
   };
 }
 
-const simalarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
-
-simalarAds;
-
+export {createAd};
+export {SIMILAR_AD_COUNT};
