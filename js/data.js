@@ -90,5 +90,6 @@ function createAd () {
   };
 }
 
-export {createAd};
-export {SIMILAR_AD_COUNT};
+const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
+
+export {similarAds};
