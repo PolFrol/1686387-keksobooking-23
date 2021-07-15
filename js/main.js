@@ -1,6 +1,6 @@
-import {createAd} from './data.js';
-import {SIMILAR_AD_COUNT} from './data.js';
+import {similarAds} from './data.js';
+import {createCard} from './card.js';
 
-const simalarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
-
-simalarAds;
+const adt = similarAds[0];
+const card = createCard(adt);
+document.querySelector('#map-canvas').append(card);
