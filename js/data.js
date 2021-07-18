@@ -80,7 +80,10 @@ function createAd () {
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArray(PHOTOS),
     },
-    location: `${randomLat} ${randomLng}`,
+    location: {
+      randomLat,
+      randomLng,
+    },
   };
 }
 
