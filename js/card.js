@@ -38,7 +38,7 @@ const createCard = (ad) => {
     сardElement.querySelector('.popup__type').classList.add('hidden');
   }
 
-  if (Number.isFinite(ad.offer.rooms && ad.offer.guests)) {
+  if (Number.isFinite(ad.offer.rooms) && Number.isFinite(ad.offer.guests)) {
     сardElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
   } else {
     сardElement.querySelector('.popup__text--capacity').classList.add('hidden');
@@ -52,7 +52,7 @@ const createCard = (ad) => {
 
   const featureAd = сardElement.querySelector('.popup__features');
   featureAd.innerHTML = '';
-  if (ad.offer.features) {
+  if (ad.offer.features && ad.offer.features.length) {
     ad.offer.features.forEach((feature) => {
       const item = document.createElement('li');
       item.classList.add('popup__feature');
@@ -92,7 +92,7 @@ const createCard = (ad) => {
   const photosBlock = сardElement.querySelector('.popup__photos');
   photosBlock.innerHTML = '';
 
-  if (ad.offer.photos) {
+  if (ad.offer.photos && ad.offer.photos.length) {
     photosBlock.appendChild(createPhotos(ad.offer.photos));
   } else {
     photosBlock.classList.add('hidden');

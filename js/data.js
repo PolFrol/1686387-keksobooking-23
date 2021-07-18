@@ -69,10 +69,7 @@ function createAd () {
     },
     offer: {
       title: getRandomArrayElement(TITLE),
-      address: {
-        randomLat,
-        randomLng,
-      },
+      address: `${randomLat} ${randomLng}`,
       price: generateInteger(0, 1000000),
       type: getRandomArrayElement(TYPE),
       rooms: generateInteger(0, 100),
