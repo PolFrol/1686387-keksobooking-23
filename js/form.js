@@ -1,19 +1,41 @@
-const toggleForm = (selector, isActive) => {
-  const formAd = document.querySelector('.ad-form');
-  const formItems = Array.from(formAd.querySelectorAll('fieldset'));
-
-  formAd.classList.toggle('ad__filters--disabled', isActive);
-  formItems.forEach((fieldset) => fieldset.disabled = isActive);
+const HOUSE_PRICES = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
-toggleForm('.ad-form', true);
+const formAd = document.querySelector('.ad-form');
+const formFieldset = formAd.querySelectorAll('fieldset');
+const priceInput = document.querySelector('#price');
+const houseSelect = document.querySelector('#type');
+const timeInSelect = document.querySelector('#timein');
+const timeOutSelect = document.querySelector('#timeout');
 
-const toggleFilters = (selector, isActive) => {
-  const formFilter = document.querySelector('.map__filters');
-  const formFilterItems = Array.from(formFilter.children);
-
-  formFilter.classList.toggle('map__filters--disabled', isActive);
-  formFilterItems.forEach((filter) => filter.disabled = isActive);
+const toggleFormDisabled = () => {
+  formAd.classList.toggle('ad-form--disabled');
+  formFieldset.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
 };
 
-toggleFilters('.map__filters', true);
+priceInput.min = HOUSE_PRICES['flat'];
+priceInput.placeholder = HOUSE_PRICES['flat'];
+
+const houseChangeHandler = (evt) => {
+  priceInput.min = HOUSE_PRICES[evt.target.value];
+  priceInput.placeholder = HOUSE_PRICES[evt.target.value];
+};
+
+houseSelect.addEventListener('change', houseChangeHandler);
+
+const timeChangeHandler = (linkedItems) => (evt) => {
+  linkedItems.value = evt.target.value;
+};
+
+timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
+
+timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
+
+export {toggleFormDisabled};

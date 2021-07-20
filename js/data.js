@@ -89,4 +89,4 @@ function createAd () {
 
 const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
 
-export {similarAds};
+export {similarAds, MIN_LAT, MAX_LAT, MIN_LNG, MAX_LNG};
