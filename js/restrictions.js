@@ -24,4 +24,3 @@ const onRoomNumberChange = () => {
 };
 
 roomsNumber.addEventListener('change', onRoomNumberChange);
-
