@@ -58,8 +58,8 @@ const PHOTOS = [
 const SIMILAR_AD_COUNT = 10;
 
 function createAd () {
-  const randomLat = generateRandomFloat(MIN_LAT, MAX_LAT, 5);
-  const randomLng = generateRandomFloat(MIN_LNG, MAX_LNG, 5);
+  const lat = generateRandomFloat(MIN_LAT, MAX_LAT, 5);
+  const lng = generateRandomFloat(MIN_LNG, MAX_LNG, 5);
   const avatarIndex = generateInteger(MIN_AVATAR_INDEX, MAX_AVATAR_INDEX);
   const avatar = `img/avatars/user0${avatarIndex}.png`;
 
@@ -69,7 +69,7 @@ function createAd () {
     },
     offer: {
       title: getRandomArrayElement(TITLE),
-      address: `${randomLat} ${randomLng}`,
+      address: `${lat} ${lng}`,
       price: generateInteger(0, 1000000),
       type: getRandomArrayElement(TYPE),
       rooms: generateInteger(0, 100),
@@ -81,12 +81,12 @@ function createAd () {
       photos: getRandomArray(PHOTOS),
     },
     location: {
-      randomLat,
-      randomLng,
+      lat,
+      lng,
     },
   };
 }
 
 const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
 
-export {similarAds, MIN_LAT, MAX_LAT, MIN_LNG, MAX_LNG};
+export {similarAds};

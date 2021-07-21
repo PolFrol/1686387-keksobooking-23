@@ -13,10 +13,10 @@ const houseSelect = document.querySelector('#type');
 const timeInSelect = document.querySelector('#timein');
 const timeOutSelect = document.querySelector('#timeout');
 
-const toggleFormDisabled = () => {
-  formAd.classList.toggle('ad-form--disabled');
+const disabledForm = () => {
+  const isDisabled = formAd.classList.toggle('ad-form--disabled');
   formFieldset.forEach((fieldset) => {
-    fieldset.disabled = true;
+    fieldset.disabled = isDisabled;
   });
 };
 
@@ -30,12 +30,12 @@ const houseChangeHandler = (evt) => {
 
 houseSelect.addEventListener('change', houseChangeHandler);
 
-const timeChangeHandler = (linkedItems) => (evt) => {
-  linkedItems.value = evt.target.value;
+const timeChangeHandler = (linkedItem) => (evt) => {
+  linkedItem.value = evt.target.value;
 };
 
 timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
 
 timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
 
-export {toggleFormDisabled};
+export {disabledForm};

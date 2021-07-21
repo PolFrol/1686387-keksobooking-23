@@ -1,7 +1,9 @@
 import {createCard} from './card.js';
+import {disabledForm} from './form.js';
+import {similarAds} from './data.js';
 
 const addressInput = document.querySelector('#address');
-
+const AD_COUNT = 10;
 const CENTRE_TOKYO = {
   lat: 35.67500,
   lng: 139.75000,
@@ -9,6 +11,7 @@ const CENTRE_TOKYO = {
 
 const map = L.map('map-canvas')
   .on('load', () => {
+    disabledForm();
   })
   .setView({
     lat: CENTRE_TOKYO.lat,
@@ -52,8 +55,8 @@ mainMarkerAd.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (point) => {
-  const {lat, lng} = point;
+const createMarker = (ad) => {
+  const {lat, lng} = ad.location;
   const pinIcon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
@@ -71,19 +74,22 @@ const createMarker = (point) => {
     {
       keepInView: true,
     },
+
   );
   markerAd
     .addTo(markerGroup)
     .bindPopup(
-      createCard(point),
+      createCard(ad),
     );
 };
 
-const createMarkerGroup = (adt) => {
-  adt.forEach((card) => {
-    createMarker(card);
+const createMarkerGroup = (ads) => {
+  ads.slice(0, AD_COUNT).forEach((ad) => {
+    createMarker(ad);
   });
 };
+
+createMarkerGroup(similarAds);
 
 const restoreParameters = () => {
   mainMarkerAd.setLatLng({
