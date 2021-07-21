@@ -1025,6 +1025,33 @@ fieldset {
   overflow: hidden;
 }
 
+
+.load-error {
+  width: 500px;
+  height: 300px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: calc(50% - 250px);
+  left: calc(50% - 150px);
+
+  background-color: #e2e2e2;
+  border-radius: 15px;
+
+  box-shadow: 0px 5px 20px 5px black ;
+  z-index: 1000;
+}
+
+.load-error span {
+  font-family: 'Roboto';
+  font-weight: bold;
+  font-size: 32px;
+}
+
 .hidden {
   display: none;
 }
+

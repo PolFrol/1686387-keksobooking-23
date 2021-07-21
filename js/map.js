@@ -1,18 +1,68 @@
 import {createCard} from './card.js';
-import {disabledForm} from './form.js';
-import {similarAds} from './data.js';
+import {enabledForm} from './form.js';
+import {getData} from './api.js';
 
 const addressInput = document.querySelector('#address');
 const AD_COUNT = 10;
-const CENTRE_TOKYO = {
+export const CENTRE_TOKYO = {
   lat: 35.67500,
   lng: 139.75000,
 };
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    disabledForm();
-  })
+const map = L.map('map-canvas');
+const markerGroup = L.layerGroup().addTo(map);
+
+const createMarker = (ad) => {
+  const {lat, lng} = ad.location;
+  const pinIcon = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const markerAd = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: pinIcon,
+    },
+    {
+      keepInView: true,
+    },
+
+  );
+  markerAd
+    .addTo(markerGroup)
+    .bindPopup(
+      createCard(ad),
+    );
+};
+
+const createMarkerGroup = (ads) => {
+  ads.slice(0, AD_COUNT).forEach((ad) => {
+    createMarker(ad);
+  });
+};
+
+const onMapLoad = () => {
+  enabledForm();
+  getData(
+    (similarAds) => {
+      createMarkerGroup(similarAds);
+    },
+    () => {
+      const errorBlock = document.querySelector('.load-error');
+      errorBlock.classList.remove('hidden');
+
+      setTimeout(() => {
+        errorBlock.classList.add('hidden');
+      }, 3000);
+    });
+};
+
+map.on('load', onMapLoad)
   .setView({
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
@@ -53,43 +103,6 @@ mainMarkerAd.on('moveend', (evt) => {
   setAddress(evt, evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
-const markerGroup = L.layerGroup().addTo(map);
-
-const createMarker = (ad) => {
-  const {lat, lng} = ad.location;
-  const pinIcon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const markerAd = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: pinIcon,
-    },
-    {
-      keepInView: true,
-    },
-
-  );
-  markerAd
-    .addTo(markerGroup)
-    .bindPopup(
-      createCard(ad),
-    );
-};
-
-const createMarkerGroup = (ads) => {
-  ads.slice(0, AD_COUNT).forEach((ad) => {
-    createMarker(ad);
-  });
-};
-
-createMarkerGroup(similarAds);
 
 const restoreParameters = () => {
   mainMarkerAd.setLatLng({
