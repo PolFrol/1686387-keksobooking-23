@@ -1,10 +1,5 @@
-import {similarAds} from './data.js';
-import {createCard} from './card.js';
+import './card.js';
+import './data.js';
 import './restrictions.js';
 import './form.js';
-
-const adt = similarAds[0];
-const card = createCard(adt);
-document.querySelector('#map-canvas').append(card);
-
-
+import './map.js';
