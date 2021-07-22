@@ -1,7 +1,10 @@
 import {createCard} from './card.js';
 import {enabledForm} from './form.js';
 import {getData} from './api.js';
+import {getFiltered, setFilterChange} from './filter.js';
+import {debounce} from './utils/debounce.js';
 
+const TIMEOUT_DELAY = 500;
 const addressInput = document.querySelector('#address');
 const AD_COUNT = 10;
 export const CENTRE_TOKYO = {
@@ -51,6 +54,7 @@ const onMapLoad = () => {
   getData(
     (similarAds) => {
       createMarkerGroup(similarAds);
+      setFilterChange(debounce(() => createMarkerGroup(getFiltered(similarAds)), TIMEOUT_DELAY));
     },
     () => {
       const errorBlock = document.querySelector('.load-error');
@@ -59,7 +63,8 @@ const onMapLoad = () => {
       setTimeout(() => {
         errorBlock.classList.add('hidden');
       }, 3000);
-    });
+    },
+  );
 };
 
 map.on('load', onMapLoad)
@@ -116,4 +121,4 @@ const restoreParameters = () => {
   }, 10);
 };
 
-export {createMarkerGroup, restoreParameters};
+export {createMarkerGroup, restoreParameters, AD_COUNT};

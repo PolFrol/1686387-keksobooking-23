@@ -1,5 +1,8 @@
+const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
+const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
+
 const getData = (onSuccess, onError) => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
+  fetch(ADDRESS_GET)
     .then((response) => response.json())
     .then((data) => onSuccess(data))
     .catch(() => onError());
@@ -7,7 +10,7 @@ const getData = (onSuccess, onError) => {
 
 const sendData = (onSuccess, onError, body) => {
   fetch(
-    'https://23.javascript.pages.academy/keksobooking',
+    ADDRESS_POST,
     {
       method: 'POST',
       body,
@@ -17,11 +20,11 @@ const sendData = (onSuccess, onError, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onError();
+        throw new Error(`${response.status} - ${response.statusText}`);
       }
     })
-    .catch(() => {
-      onError();
+    .catch((error) => {
+      onError(error);
     });
 };
 
