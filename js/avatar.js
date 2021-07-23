@@ -5,13 +5,11 @@ const previewAvatar = document.querySelector('.ad-form-header__preview img');
 const fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
 const previewPhoto = document.querySelector('.ad-form__photo img');
 
-const onChooserChange = (chooser, preview) => {
+const getChooserChangeHandler = (chooser, preview) => () => {
   const file = chooser.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((it) => {
-    fileName.endsWith(it);
-  });
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
     const reader = new FileReader();
@@ -23,5 +21,7 @@ const onChooserChange = (chooser, preview) => {
   }
 };
 
-fileChooserAvatar.addEventListener('change', onChooserChange.bind(fileChooserAvatar, previewAvatar));
-fileChooserPhoto.addEventListener('change', onChooserChange.bind(fileChooserPhoto, previewPhoto));
+const onAvatarChange = getChooserChangeHandler(fileChooserAvatar, previewAvatar);
+const onPhotoChange = getChooserChangeHandler(fileChooserPhoto, previewPhoto);
+fileChooserAvatar.addEventListener('change', onAvatarChange);
+fileChooserPhoto.addEventListener('change', onPhotoChange);

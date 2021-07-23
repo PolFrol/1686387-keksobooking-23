@@ -1,9 +1,10 @@
 import {sendData} from './api.js';
-import {CENTRE_TOKYO} from './map.js';
+import {CENTRE_TOKYO, restoreParameters, addressInput} from './map.js';
 
 const ESC_KEY_CODE = 27;
 const body = document.querySelector('body');
 const formAd = document.querySelector('.ad-form');
+const mapFilter = document.querySelector('.map__filters');
 const resetFormButton = document.querySelector('.ad-form__reset');
 const formFieldset = formAd.querySelectorAll('fieldset');
 const errorSubmitMessage = document.querySelector('#error').content;
@@ -11,6 +12,7 @@ const successSubmitMessage = document.querySelector('#success').content;
 
 const disabledForm = () => {
   formAd.classList.add('ad-form--disabled');
+
   formFieldset.forEach((fieldset) => {
     fieldset.disabled = true;
   });
@@ -26,12 +28,14 @@ const enabledForm = () => {
 
 const formReset = (form) => {
   form.reset();
-  form.querySelector('#address').value = `${CENTRE_TOKYO.lat}, ${CENTRE_TOKYO.lng}`;
+  addressInput.value = `${Number(CENTRE_TOKYO.lat).toFixed(5)}, ${Number(CENTRE_TOKYO.lng).toFixed(5)}`;
 };
 
 resetFormButton.addEventListener('click', (resetEvent) => {
   resetEvent.preventDefault();
+  formReset(mapFilter);
   formReset(formAd);
+  restoreParameters();
 });
 
 formAd.addEventListener('submit', (evt) => {

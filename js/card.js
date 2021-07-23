@@ -6,9 +6,9 @@ const TYPE_OF_PLACE = {
   hotel: 'Отель',
 };
 
-const PICTURE_WIDHT = 45;
-const PICTURE_HEIGHT = 40;
-const PICTURE_ALT = 'Фотография жилья';
+const WIDHT_PICTURE_PLACE = 45;
+const HEIGHT_PICTURE_PLACE = 40;
+const ALT_PICTURE_PLACE = 'Фотография жилья';
 
 const createCard = (ad) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -81,9 +81,9 @@ const createCard = (ad) => {
       const picture = document.createElement('img');
       picture.classList.add('popup__photo');
       picture.src = photo;
-      picture.width = PICTURE_WIDHT;
-      picture.height = PICTURE_HEIGHT;
-      picture.alt = PICTURE_ALT;
+      picture.width = WIDHT_PICTURE_PLACE;
+      picture.height = HEIGHT_PICTURE_PLACE;
+      picture.alt = ALT_PICTURE_PLACE;
       photosFragment.appendChild(picture);
     });
     return photosFragment;

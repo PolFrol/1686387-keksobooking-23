@@ -5,20 +5,25 @@ import {getFiltered, setFilterChange} from './filter.js';
 import {debounce} from './utils/debounce.js';
 
 const TIMEOUT_DELAY = 500;
-const addressInput = document.querySelector('#address');
 const AD_COUNT = 10;
-export const CENTRE_TOKYO = {
+const SCALE = 10;
+const CENTRE_TOKYO = {
   lat: 35.67500,
   lng: 139.75000,
 };
+const ICON_URL = {
+  MAIN_ICON: 'img/main-pin.svg',
+  AD_ICON: 'img/pin.svg',
+};
 
+const addressInput = document.querySelector('#address');
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (ad) => {
   const {lat, lng} = ad.location;
   const pinIcon = L.icon({
-    iconUrl: 'img/pin.svg',
+    iconUrl: ICON_URL.AD_ICON,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
@@ -44,10 +49,28 @@ const createMarker = (ad) => {
 };
 
 const createMarkerGroup = (ads) => {
+  markerGroup.clearLayers();
   ads.slice(0, AD_COUNT).forEach((ad) => {
     createMarker(ad);
   });
 };
+
+const mainPinIcon = L.icon({
+  iconUrl: ICON_URL.MAIN_ICON,
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mainMarkerAd = L.marker(
+  {
+    lat: CENTRE_TOKYO.lat,
+    lng: CENTRE_TOKYO.lng,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
 
 const onMapLoad = () => {
   enabledForm();
@@ -71,7 +94,7 @@ map.on('load', onMapLoad)
   .setView({
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
-  }, 10);
+  }, SCALE);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -79,22 +102,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   },
 ).addTo(map);
 
-const mainPinIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainMarkerAd = L.marker(
-  {
-    lat: CENTRE_TOKYO.lat,
-    lng: CENTRE_TOKYO.lng,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
 
 mainMarkerAd.addTo(map);
 
@@ -108,8 +115,8 @@ mainMarkerAd.on('moveend', (evt) => {
   setAddress(evt, evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
-
 const restoreParameters = () => {
+  markerGroup.clearLayers();
   mainMarkerAd.setLatLng({
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
@@ -118,7 +125,9 @@ const restoreParameters = () => {
   map.setView({
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
-  }, 10);
+  }, SCALE);
+
+  getData((similarAds) => createMarkerGroup(similarAds.slice(0, AD_COUNT)));
 };
 
-export {createMarkerGroup, restoreParameters, AD_COUNT};
+export {createMarkerGroup, restoreParameters, AD_COUNT, CENTRE_TOKYO, addressInput};

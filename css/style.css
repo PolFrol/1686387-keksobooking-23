@@ -583,6 +583,12 @@ fieldset {
   border-radius: 5px;
 }
 
+.ad-form__photo {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
 .ad-form__element--submit {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
