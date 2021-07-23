@@ -1,21 +1,11 @@
 import {sendData} from './api.js';
 import {CENTRE_TOKYO} from './map.js';
-const HOUSE_PRICES = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
+
 const ESC_KEY_CODE = 27;
 const body = document.querySelector('body');
 const formAd = document.querySelector('.ad-form');
 const resetFormButton = document.querySelector('.ad-form__reset');
 const formFieldset = formAd.querySelectorAll('fieldset');
-const priceInput = document.querySelector('#price');
-const houseSelect = document.querySelector('#type');
-const timeInSelect = document.querySelector('#timein');
-const timeOutSelect = document.querySelector('#timeout');
 const errorSubmitMessage = document.querySelector('#error').content;
 const successSubmitMessage = document.querySelector('#success').content;
 
@@ -33,23 +23,6 @@ const enabledForm = () => {
   });
 };
 
-priceInput.min = HOUSE_PRICES['flat'];
-priceInput.placeholder = HOUSE_PRICES['flat'];
-
-const houseChangeHandler = (evt) => {
-  priceInput.min = HOUSE_PRICES[evt.target.value];
-  priceInput.placeholder = HOUSE_PRICES[evt.target.value];
-};
-
-houseSelect.addEventListener('change', houseChangeHandler);
-
-const timeChangeHandler = (linkedItem) => (evt) => {
-  linkedItem.value = evt.target.value;
-};
-
-timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
-
-timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
 
 const formReset = (form) => {
   form.reset();
