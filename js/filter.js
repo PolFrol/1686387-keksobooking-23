@@ -36,19 +36,24 @@ const filterFeatures = (ad) => Array.from(housingFeatures).every((checkbox) => {
   return ad.offer.features.includes(checkbox.value);
 });
 
+const filterAd = (ad) =>
+  filterTypes(ad) &&
+  filterPrices(ad) &&
+  filterRooms(ad) &&
+  filterGuests(ad) &&
+  filterFeatures(ad);
+
 const getFiltered = (ads) => {
   const filtered = [];
   for (let index = 0; index < ads.length; index++) {
     const ad = ads[index];
 
-    if (
-      filterTypes(ad) &&
-      filterPrices(ad) &&
-      filterRooms(ad) &&
-      filterGuests(ad) &&
-      filterFeatures(ad)
-    ) {
+    const isFiltered = filterAd(ad);
+    if (isFiltered) {
       filtered.push(ad);
+      if (filtered.length === 10) {
+        break;
+      }
     }
   }
   return filtered;

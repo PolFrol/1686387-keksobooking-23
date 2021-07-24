@@ -25,3 +25,5 @@ const onAvatarChange = getChooserChangeHandler(fileChooserAvatar, previewAvatar)
 const onPhotoChange = getChooserChangeHandler(fileChooserPhoto, previewPhoto);
 fileChooserAvatar.addEventListener('change', onAvatarChange);
 fileChooserPhoto.addEventListener('change', onPhotoChange);
+
+export {previewAvatar, previewPhoto};

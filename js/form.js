@@ -1,5 +1,9 @@
 import {sendData} from './api.js';
-import {CENTRE_TOKYO, restoreParameters, addressInput} from './map.js';
+import {restoreParameters} from './map.js';
+import {previewAvatar, previewPhoto} from './avatar.js';
+
+const PREVIEW_AVATAR_DEFAULT = 'img/muffin-grey.svg';
+const PREVIEW_PHOTO_DEFAULT = 'img/muffin-white.svg';
 
 const ESC_KEY_CODE = 27;
 const body = document.querySelector('body');
@@ -26,16 +30,17 @@ const enabledForm = () => {
 };
 
 
-const formReset = (form) => {
-  form.reset();
-  addressInput.value = `${Number(CENTRE_TOKYO.lat).toFixed(5)}, ${Number(CENTRE_TOKYO.lng).toFixed(5)}`;
+const clearForm = () => {
+  formAd.reset();
+  mapFilter.reset();
+  restoreParameters();
+  previewAvatar.src = PREVIEW_AVATAR_DEFAULT;
+  previewPhoto.src = PREVIEW_PHOTO_DEFAULT;
 };
 
 resetFormButton.addEventListener('click', (resetEvent) => {
   resetEvent.preventDefault();
-  formReset(mapFilter);
-  formReset(formAd);
-  restoreParameters();
+  clearForm();
 });
 
 formAd.addEventListener('submit', (evt) => {
@@ -52,7 +57,7 @@ formAd.addEventListener('submit', (evt) => {
 
       body.appendChild(successSubmitMessage);
       body.addEventListener('keydown', onEscPress);
-      formReset(evt.target);
+      clearForm(evt.target);
     },
     () => {
       const onEscPress = (escapeEvt) => {

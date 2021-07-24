@@ -90,7 +90,9 @@ const onMapLoad = () => {
   );
 };
 
-map.on('load', onMapLoad)
+map.on('load', () => {
+  onMapLoad();
+})
   .setView({
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
@@ -126,6 +128,8 @@ const restoreParameters = () => {
     lat: CENTRE_TOKYO.lat,
     lng: CENTRE_TOKYO.lng,
   }, SCALE);
+
+  setAddress(CENTRE_TOKYO);
 
   getData((similarAds) => createMarkerGroup(similarAds.slice(0, AD_COUNT)));
 };
