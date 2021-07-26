@@ -1,3 +1,5 @@
+import {AD_COUNT} from './map.js';
+
 const PRICES_VALUE = {
   low: 'low',
   middle: 'middle',
@@ -18,13 +20,23 @@ const housingRooms = mapFilter.querySelector('#housing-rooms');
 const housingGuests = mapFilter.querySelector('#housing-guests');
 const housingFeatures = mapFilter.querySelectorAll('.map__checkbox');
 
-const filterTypes = (ad) => housingType.value === ad.offer.type || SPECIAL_VALUE === housingType.value;
+const filterTypes = (ad) => housingType.value === SPECIAL_VALUE || ad.offer.type === housingType.value;
 
-const filterPrices = (ad) => housingPrice.value === PRICES_VALUE.middle && (ad.offer.price < PRICES_RANGE.low || ad.offer.price > PRICES_RANGE.high);
+const filterPrices = (ad) => {
+  switch(housingPrice.value) {
+    case PRICES_VALUE.middle:
+      return ad.offer.price >= PRICES_RANGE.low && ad.offer.price <= PRICES_RANGE.high;
+    case PRICES_VALUE.low:
+      return ad.offer.price <= PRICES_RANGE.low;
+    case PRICES_VALUE.high:
+      return ad.offer.price >= PRICES_RANGE.high;
+  }
+  return true;
+};
 
-const filterRooms = (ad) => housingRooms.value === ad.offer.rooms || SPECIAL_VALUE === Number(housingRooms.value);
+const filterRooms = (ad) => housingRooms.value === SPECIAL_VALUE || ad.offer.rooms === Number(housingRooms.value);
 
-const filterGuests = (ad) => housingGuests.value === ad.offer.rooms || SPECIAL_VALUE === Number(housingGuests.value);
+const filterGuests = (ad) => housingGuests.value === SPECIAL_VALUE || ad.offer.guests === Number(housingGuests.value);
 
 const filterFeatures = (ad) => Array.from(housingFeatures).every((checkbox) => {
   if (!checkbox.checked) {
@@ -51,7 +63,7 @@ const getFiltered = (ads) => {
     const isFiltered = filterAd(ad);
     if (isFiltered) {
       filtered.push(ad);
-      if (filtered.length === 10) {
+      if (filtered.length === AD_COUNT) {
         break;
       }
     }

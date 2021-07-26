@@ -1,6 +1,7 @@
 import {createCard} from './card.js';
 import {enabledForm} from './form.js';
 import {getData} from './api.js';
+import {showMessageGetError} from './messages.js';
 import {getFiltered, setFilterChange} from './filter.js';
 import {debounce} from './utils/debounce.js';
 
@@ -55,23 +56,6 @@ const createMarkerGroup = (ads) => {
   });
 };
 
-const mainPinIcon = L.icon({
-  iconUrl: ICON_URL.MAIN_ICON,
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainMarkerAd = L.marker(
-  {
-    lat: CENTRE_TOKYO.lat,
-    lng: CENTRE_TOKYO.lng,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
-
 const onMapLoad = () => {
   enabledForm();
   getData(
@@ -79,14 +63,7 @@ const onMapLoad = () => {
       createMarkerGroup(similarAds);
       setFilterChange(debounce(() => createMarkerGroup(getFiltered(similarAds)), TIMEOUT_DELAY));
     },
-    () => {
-      const errorBlock = document.querySelector('.load-error');
-      errorBlock.classList.remove('hidden');
-
-      setTimeout(() => {
-        errorBlock.classList.add('hidden');
-      }, 3000);
-    },
+    showMessageGetError,
   );
 };
 
@@ -104,6 +81,22 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   },
 ).addTo(map);
 
+const mainPinIcon = L.icon({
+  iconUrl: ICON_URL.MAIN_ICON,
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mainMarkerAd = L.marker(
+  {
+    lat: CENTRE_TOKYO.lat,
+    lng: CENTRE_TOKYO.lng,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
 
 mainMarkerAd.addTo(map);
 

@@ -1,11 +1,22 @@
+import { clearForm } from './form.js';
+
 const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
 const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
 
 const getData = (onSuccess, onError) => {
   fetch(ADDRESS_GET)
-    .then((response) => response.json())
-    .then((data) => onSuccess(data))
-    .catch(() => onError());
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} — ${response.statusText}`);
+    })
+    .then((ads) => {
+      onSuccess(ads);
+    })
+    .catch((error) => {
+      onError(`При загрузке данных произошла ошибка: "${error}"`);
+    });
 };
 
 const sendData = (onSuccess, onError, body) => {
@@ -19,6 +30,7 @@ const sendData = (onSuccess, onError, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
+        clearForm();
       } else {
         throw new Error(`${response.status} - ${response.statusText}`);
       }

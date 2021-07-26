@@ -5,3 +5,4 @@ import './form.js';
 import './api.js';
 import './filter.js';
 import './avatar.js';
+import './messages.js';
